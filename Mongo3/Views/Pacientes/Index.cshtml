@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Mongo3.Models.PacienteModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nacimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoSangre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nacionalidada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Residencia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefonos)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Apellido1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Apellido2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nacimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoSangre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nacionalidada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Residencia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefonos)
+        </td>
+        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>
