@@ -53,9 +53,13 @@
             @Html.DisplayFor(modelItem => item.Estado)
         </td>
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Cancelar", "Edit", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
+
+<div>
+    @Html.ActionLink("Log out", "Login", "Pacientes")
+</div>

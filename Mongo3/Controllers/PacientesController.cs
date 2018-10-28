@@ -115,9 +115,9 @@ namespace Mongo3.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(PacienteModel user)
+        public ActionResult Login(PacienteModel user, string password)
         {
-                var usr = pacienteCollection.AsQueryable<PacienteModel>().SingleOrDefault(u => u.Nombre == user.Nombre && u.Contraseña == user.Contraseña);
+                var usr = pacienteCollection.AsQueryable<PacienteModel>().SingleOrDefault(u => u.Nombre == user.Nombre && u.Contraseña == password);
                 //var usr = funcionarioCollection.FindAsync(u => u.Nombre == user.Nombre && u.Contraseña == user.Contraseña);
                 if (usr != null)
                 {

@@ -53,14 +53,16 @@ namespace Mongo3.Controllers
         {
             try
             {
+                string cedula= (string)TempData["cedula2"]; ;
+                Citas.cedula = cedula;
                 Citas.Estado = "Registrada";
                 CitasCollection.InsertOne(Citas);
-
-                return RedirectToAction("Index"); 
+                TempData["cedula"] = cedula;
+                return RedirectToAction("CitaPacienteAsync"); 
             } 
             catch
             {
-                return View();
+                return RedirectToAction("CitaPacienteAsync");
             }
         }
 
@@ -79,11 +81,11 @@ namespace Mongo3.Controllers
         {
             try
             {
-                var filter = Builders<CitasModel>.Filter.Eq("id_", ObjectId.Parse(id));
-                var update = Builders<CitasModel>.Update.Set("Especialidad", Citas.Especialidad);//Se puede agregar mas haciendo un .Set("",) extra
+                var filter = Builders<CitasModel>.Filter.Eq("_id", ObjectId.Parse(id));
+                var update = Builders<CitasModel>.Update.Set("Estado", "Cancelada por paciente");
                 var result = CitasCollection.UpdateOne(filter, update);
-
-                return RedirectToAction("Index");
+                TempData["cedula"] = Citas.cedula;
+                return RedirectToAction("CitaPacienteAsync");
             }
             catch
             {
@@ -122,12 +124,68 @@ namespace Mongo3.Controllers
                 this.cedula = (string)TempData["cedula"];
                 var filter = Builders<CitasModel>.Filter.Eq("cedula", cedula);
                 List<CitasModel> result = await CitasCollection.Find(filter).ToListAsync();
+                TempData["cedula2"] = this.cedula;
                 return View(result);
+
             }
             else
             {
-                return RedirectToAction("Create");
+                return RedirectToAction("Login", "Pacientes");
             }
         }
+
+        public ActionResult SecretarioV()
+        {
+            List<CitasModel> Citas = CitasCollection.AsQueryable<CitasModel>().ToList();
+            return View(Citas);
+        }
+
+        public ActionResult EditAsync(string id)
+        {
+            var CitasId = new ObjectId(id);
+            var Citas = CitasCollection.AsQueryable<CitasModel>().SingleOrDefault(x => x.Id == CitasId);
+            return View(Citas);
+
+        }
+
+        // POST: Funcionarios/Edit/5
+        [HttpPost]
+        public async System.Threading.Tasks.Task<ActionResult> EditAsync(string id, CitasModel Citas)
+        {
+            try
+            {
+                if (Citas.Estado == "0")
+                {
+                    var filter = Builders<CitasModel>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<CitasModel>.Update.Set("Cedula", Citas.cedula).Set("Observacion", Citas.Observacion).Set("Estado", "Asignada");//Se puede agregar mas haciendo un .Set("",) extra
+                    var result = await CitasCollection.UpdateOneAsync(filter, update);
+                    // var result = CitasCollection.UpdateOne(filter, update);
+
+                    return RedirectToAction("SecretarioV");
+
+                }
+                else if (Citas.Estado == "1")
+                {
+                    var filter = Builders<CitasModel>.Filter.Eq("_id", ObjectId.Parse(id));
+                    var update = Builders<CitasModel>.Update.Set("Cedula", Citas.cedula).Set("Observacion", Citas.Observacion).Set("Estado", "Eliminada por centro medico");//Se puede agregar mas haciendo un .Set("",) extra
+                    var result = await CitasCollection.UpdateOneAsync(filter, update);
+                    // var result = CitasCollection.UpdateOne(filter, update);
+
+                    return RedirectToAction("SecretarioV");
+                }
+                else
+                {
+                    return View();
+                }
+
+
+
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
     }
 }

@@ -121,12 +121,12 @@ namespace Mongo3.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(FuncionarioModel user)
+        public ActionResult Login(FuncionarioModel user, string password)
         {
             using (ourDbContext db = new ourDbContext())
             {
                 
-                var usr = funcionarioCollection.AsQueryable<FuncionarioModel>().SingleOrDefault(u => u.Nombre == user.Nombre && u.Contraseña == user.Contraseña);
+                var usr = funcionarioCollection.AsQueryable<FuncionarioModel>().SingleOrDefault(u => u.Nombre == user.Nombre && u.Contraseña == password);
                 //var usr = funcionarioCollection.FindAsync(u => u.Nombre == user.Nombre && u.Contraseña == user.Contraseña);
                 
                 if (usr != null)
@@ -142,7 +142,7 @@ namespace Mongo3.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Citas");
+                        return RedirectToAction("SecretarioV", "Citas");
                     }
                 }
                 else
