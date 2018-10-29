@@ -1,0 +1,81 @@
+﻿@model Mongo3.Models.PacienteModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PacienteModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.cedula)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cedula)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Apellido2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoSangre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoSangre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nacionalidada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nacionalidada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Residencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Residencia)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Regresar", "CitasDoctorAsync","Citas")
+</p>

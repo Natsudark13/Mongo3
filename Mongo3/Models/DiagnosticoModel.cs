@@ -12,14 +12,16 @@ namespace Mongo3.Models
     public class DiagnosticoModel
     {
         [BsonId]
-        public Double Id { get; set; }
+        public ObjectId Id { get; set; }
         [BsonElement("Nombre")]
         public string Nombre { get; set; }
+        [BsonElement("Cedula")]
+        public string cedula { get; set; }
         [BsonElement("Descripcion")]
         public string Descripcion { get; set; }
         [BsonElement("Sintomas")]
         public string Sintomas { get; set; }
         [BsonElement("Tratamiento")]
-        public string[] Tratamiento { get; set; }
+        public List<string> Tratamiento { get; set; }
     }
 }

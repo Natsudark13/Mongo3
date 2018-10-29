@@ -133,7 +133,7 @@ namespace Mongo3.Controllers
                 {
                     if (user.TipoFuncionario == "0")
                     {
-                        return RedirectToAction("Index", "Citas");
+                        return RedirectToAction("CitasDoctorAsync", "Citas");
                     }
 
                     if (user.TipoFuncionario == "1")

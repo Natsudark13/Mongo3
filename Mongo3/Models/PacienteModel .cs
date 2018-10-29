@@ -13,7 +13,7 @@ namespace Mongo3.Models
     public class PacienteModel
     {
         [BsonId]
-        public Double Id { get; set; }
+        public ObjectId Id { get; set; }
         [BsonElement("Cedula")]
         public string cedula { get; set; }
         [BsonElement("Nombre")]

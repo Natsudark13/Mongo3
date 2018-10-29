@@ -32,7 +32,7 @@ namespace Mongo3.Controllers
         // GET: Funcionarios/Details/5
         public ActionResult Details(string id)
         {
-            var DiagnosticoId = Convert.ToDouble(id);  //new ObjectId(id);
+            var DiagnosticoId = new ObjectId(id);
             var Diagnostico = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.Id == DiagnosticoId);
             return View(Diagnostico);
         }
@@ -46,12 +46,12 @@ namespace Mongo3.Controllers
 
         // POST: Funcionarios/Create
         [HttpPost]
-        public ActionResult Create(DiagnosticoModel Diagnostico, string[] listStrings)
+        public ActionResult Create(DiagnosticoModel Diagnostico) //string[] listStrings)
         {
             try
             {
                 
-                Diagnostico.Tratamiento = listStrings;
+                //Diagnostico.Tratamiento = listStrings;
                 DiagnosticoCollection.InsertOne(Diagnostico);
 
                 return RedirectToAction("Index"); 
@@ -65,7 +65,7 @@ namespace Mongo3.Controllers
         // GET: Funcionarios/Edit/5
         public ActionResult Edit(string id)
         {
-            var DiagnosticoId = Convert.ToDouble(id); //new ObjectId(id);
+            var DiagnosticoId = new ObjectId(id);
             var Diagnostico = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.Id == DiagnosticoId);
             return View(Diagnostico);
            
@@ -92,7 +92,7 @@ namespace Mongo3.Controllers
         // GET: Funcionarios/Delete/5
         public ActionResult Delete(string id)
         {
-            var DiagnosticoId = Convert.ToDouble(id); //new ObjectId(id);
+            var DiagnosticoId = new ObjectId(id);
             var Diagnostico = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.Id == DiagnosticoId);
             return View(Diagnostico);
         }

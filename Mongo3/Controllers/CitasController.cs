@@ -15,19 +15,24 @@ namespace Mongo3.Controllers
     {
         private MongoDBContext dbcontext;
         private IMongoCollection<CitasModel> CitasCollection;
+        private IMongoCollection<DiagnosticoModel> DiagnosticoCollection;
+        private IMongoCollection<TratamientoModel> TratamientoCollection;
+
         private string cedula;
 
         public CitasController()
         {
             dbcontext = new MongoDBContext();
             CitasCollection = dbcontext.database.GetCollection<CitasModel>("Citas");
+            DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+            TratamientoCollection = dbcontext.database.GetCollection<TratamientoModel>("Tratamientos");
         }
 
         // GET: Funcionarios
         public async System.Threading.Tasks.Task<ActionResult> IndexAsync()
         {
             var filter = Builders<CitasModel>.Filter.Eq("cedula", "0");
-            List<CitasModel> result = await CitasCollection.Find(filter).ToListAsync(); 
+            List<CitasModel> result = await CitasCollection.Find(filter).ToListAsync();
             //List<CitasModel> Citas = CitasCollection.AsQueryable<CitasModel>().ToList();
             return View(result);
         }
@@ -53,13 +58,13 @@ namespace Mongo3.Controllers
         {
             try
             {
-                string cedula= (string)TempData["cedula2"]; ;
+                string cedula = (string)TempData["cedula2"]; ;
                 Citas.cedula = cedula;
                 Citas.Estado = "Registrada";
                 CitasCollection.InsertOne(Citas);
                 TempData["cedula"] = cedula;
-                return RedirectToAction("CitaPacienteAsync"); 
-            } 
+                return RedirectToAction("CitaPacienteAsync");
+            }
             catch
             {
                 return RedirectToAction("CitaPacienteAsync");
@@ -72,7 +77,7 @@ namespace Mongo3.Controllers
             var CitasId = new ObjectId(id);
             var Citas = CitasCollection.AsQueryable<CitasModel>().SingleOrDefault(x => x.Id == CitasId);
             return View(Citas);
-           
+
         }
 
         // POST: Funcionarios/Edit/5
@@ -187,5 +192,127 @@ namespace Mongo3.Controllers
             }
         }
 
+        public async System.Threading.Tasks.Task<ActionResult> CitasDoctorAsync()
+        {
+
+            var filter = Builders<CitasModel>.Filter.Eq("Estado", "Registrada") | Builders<CitasModel>.Filter.Eq("Estado", "Asignada");
+            List<CitasModel> result = await CitasCollection.Find(filter).ToListAsync();
+            //TempData["cedula2"] = this.cedula;
+            return View(result);
+
+        }
+
+        public ActionResult RealizarDiag(string id, string cedula)
+        {
+            var filter = Builders<CitasModel>.Filter.Eq("_id", ObjectId.Parse(id));
+            var update = Builders<CitasModel>.Update.Set("Estado", "Realizada");
+            var result = CitasCollection.UpdateOne(filter, update);
+
+            TempData["cedulaC"] = cedula;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RealizarDiag(DiagnosticoModel cita/*, string id, string cedula*/)
+        {
+            string cedulaC = (string)TempData["cedulaC"];
+            cita.cedula = cedulaC;
+            DiagnosticoCollection.InsertOne(cita);
+            TempData["cedulaC"] = cedulaC;
+            TempData["Nombre"] = cita.Nombre;
+            return RedirectToAction("CrearTrataAsync");
+
+        }
+
+        public ActionResult CrearTrataAsync()
+        {
+            return View();
+        }
+         
+        [HttpPost]
+        public async System.Threading.Tasks.Task<ActionResult> CrearTrataAsync(TratamientoModel cita, string choice)
+        {
+            if (choice == "0")
+            {
+
+               cedula = (string)TempData["cedulaC"];
+               string Nombre = (string)TempData["Nombre"];
+               var diag = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.cedula == cedula && x.Nombre == Nombre);
+                /*List<String> xx = null;
+                if (diag.Tratamiento == null)
+                {
+                    xx = new List<string>();
+                    xx.Add(cita.ID);
+                }
+                else {
+                    xx = diag.Tratamiento;
+                    xx.Add(cita.ID);
+                }*/
+                if (diag.Tratamiento == null)
+                {
+                    var filter = Builders<DiagnosticoModel>.Filter.Eq("_id", diag.Id);
+                    var update = Builders<DiagnosticoModel>.Update.Set("Tratamiento", new List<string>());
+                    var res = await DiagnosticoCollection.UpdateOneAsync(filter, update);
+
+                    var filter2 = Builders<DiagnosticoModel>.Filter.Eq("_id", diag.Id);
+                    var update2 = Builders<DiagnosticoModel>.Update.Push<string>("Tratamiento", cita.ID);
+                    var res2 = await DiagnosticoCollection.FindOneAndUpdateAsync(filter2, update2);
+
+                }
+                else
+                {
+
+                    var filter = Builders<DiagnosticoModel>.Filter.Eq("_id", diag.Id);
+                    var update = Builders<DiagnosticoModel>.Update.Push<string>("Tratamiento", cita.ID);
+                    var result = await DiagnosticoCollection.FindOneAndUpdateAsync(filter, update);
+                }
+
+                TratamientoCollection.InsertOne(cita);
+               TempData["cedulaC"] = cedula;
+                return RedirectToAction("CrearTrataAsync");
+            }
+            else
+            {
+                string Nombre = (string)TempData["Nombre"];
+                cedula = (string)TempData["cedulaC"];
+                
+                var diag = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.cedula == cedula && x.Nombre == Nombre);
+                /*List<String> xx = null;
+                if (diag.Tratamiento == null)
+                {
+                    xx = new List<string>();
+                    xx.Add(cita.ID);
+                }
+                else
+                {
+                    xx=  diag.Tratamiento;
+                    xx.Add(cita.ID);
+                }*/
+
+                if (diag.Tratamiento == null)
+                {
+                    var filter = Builders<DiagnosticoModel>.Filter.Eq("_id", diag.Id);
+                    var update = Builders<DiagnosticoModel>.Update.Set("Tratamiento", new List<string>());
+                    var res = await DiagnosticoCollection.UpdateOneAsync(filter, update);
+                }
+                else
+                {
+
+                    var filter = Builders<DiagnosticoModel>.Filter.Eq("_id", diag.Id);
+                    var update = Builders<DiagnosticoModel>.Update.Push<string>("Tratamiento", cita.ID);
+                    var result = await DiagnosticoCollection.FindOneAndUpdateAsync(filter, update);
+                }
+
+                TratamientoCollection.InsertOne(cita);
+                TempData["cedulaC"] = cedula;
+                return RedirectToAction("CitasDoctorAsync");
+
+            }
+            
+        }
+        public ActionResult VerP(string cedula)
+        {
+            return RedirectToAction("Details", "Pacientes", new { cedulaX = cedula });
+        }
     }
-}
+    }

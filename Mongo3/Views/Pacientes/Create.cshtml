@@ -6,6 +6,7 @@
 
 <h2>Create</h2>
 
+
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -95,5 +96,9 @@
 }
 
 <div>
-    @Html.ActionLink("Regresar a LogIn", "Login")
+    @Html.ActionLink("Regresar", "Login")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

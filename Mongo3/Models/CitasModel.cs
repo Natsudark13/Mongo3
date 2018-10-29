@@ -19,7 +19,7 @@ namespace Mongo3.Models
         [BsonElement("Especialidad")]
         public string Especialidad { get; set; }
         [BsonElement("Fecha")]
-        public string Fecha { get; set; }
+        public DateTime Fecha { get; set; }
         [BsonElement("Hora")]
         public string Hora { get; set; }
         [BsonElement("Observacion")]
