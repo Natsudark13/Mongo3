@@ -326,5 +326,112 @@ namespace Mongo3.Controllers
             return View(x);
 
         }
+
+        public ActionResult CitasPorEstado(string choice)
+        {
+            string estadoX = null;
+            if (choice == "0")
+            {
+                estadoX = "Registrada";
+            }
+            if (choice == "1")
+            {
+                estadoX = "Cancelada por paciente";
+            }
+            if (choice == "2")
+            {
+                estadoX = "Cancelada por centro médico";
+            }
+            if (choice == "3")
+            {
+                estadoX = "Asignada";
+            }
+            else
+            {
+                estadoX = "Realizada";
+            }
+            var CitasCollection = dbcontext.database.GetCollection<CitasModel>("Citas");
+            var query =
+                (from e in CitasCollection.AsQueryable<CitasModel>()
+                 where (e.Estado) == estadoX 
+                 select e).ToList();
+            List<CitasModel> x = query;
+            return View(x);
+
+        }
+
+        public ActionResult CitasPorEspecialidad(string choice)
+        {
+            
+            var CitasCollection = dbcontext.database.GetCollection<CitasModel>("Citas");
+            var query =
+                (from e in CitasCollection.AsQueryable<CitasModel>()
+                 where (e.Especialidad) == choice
+                 select e).ToList();
+            List<CitasModel> x = query;
+            return View(x);
+
+        }
+
+        public ActionResult CitasPorCedula(string cedula)
+        {
+            var CitasCollection = dbcontext.database.GetCollection<CitasModel>("Citas");
+            var query =
+                (from e in CitasCollection.AsQueryable<CitasModel>()
+                 where (e.cedula) == cedula
+                 select e).ToList();
+            List<CitasModel> x = query;
+            return View(x);
+
+
+        }
+
+        public ActionResult VerDiagn(string cedula)
+        {
+            var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+            var query =
+                (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
+                 where (e.cedula) == cedula
+                 select e).ToList();
+            List<DiagnosticoModel> x = query;
+            return View(x);
+
+        }
+
+        /*public ActionResult VerTratamientos(string cedula)
+        {
+            /*var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+            var query =
+                (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
+                 where (e.cedula) == cedula
+                 select e).ToList();
+            List<DiagnosticoModel> x = query;
+            return View(x);
+            */
+            /*var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+            var TratamientoCollection = dbcontext.database.GetCollection<TratamientoModel>("Tratamiento");
+
+            var query2 =
+                (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
+                 where (e.cedula) == cedula
+                 select e.Tratamiento)
+                 ;
+            int x = query2.Count();
+            List<string> li = (List<string>)query2;
+            int cont = 0;
+            List<TratamientoModel> query = null;
+            while (cont < x)
+            {
+                var queryZ =
+                        (from e in TratamientoCollection.AsQueryable<TratamientoModel>()
+                         where (e.ID) == li[cont]
+                         select e).ToList();
+                query.AddRange(queryZ);
+                cont++;
+            }
+            return View(query);
+
+        }*/
+
     }
     }

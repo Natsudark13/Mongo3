@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Mongo3.Models.CitasModel>
 
 @{
-    ViewBag.Title = "CitasPorFecha";
+    ViewBag.Title = "CitasPorCedula";
 }
 
-<h2>CitasPorFecha</h2>
+<h2>CitasPorCedula</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -53,7 +53,9 @@
             @Html.DisplayFor(modelItem => item.Estado)
         </td>
         <td>
+
             @Html.ActionLink("Info Paciente", "VerP", new { id = item.Id, cedula = item.cedula })
+
         </td>
     </tr>
 }

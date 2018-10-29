@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Mongo3.Models.DiagnosticoModel>
+
+@{
+    ViewBag.Title = "VerDiagn";
+}
+
+<h2>VerDiagn</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sintomas)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cedula)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sintomas)
+        </td>
+        <td>
+            @Html.ActionLink("Ver Tratamiento", "VerTratamientos", new { cedula = item.cedula  }) 
+        </td>
+    </tr>
+}
+
+</table>

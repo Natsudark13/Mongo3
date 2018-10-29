@@ -55,7 +55,7 @@
             </td>
             <td>
                 @Html.ActionLink("Atender", "RealizarDiag", new { id = item.Id, cedula = item.cedula }) |
-                @Html.ActionLink("Info Paciente", "VerP", new { id = item.Id, cedula = item.cedula }) |
+                @Html.ActionLink("Info Paciente", "VerP", new { id = item.Id, cedula = item.cedula }) 
             </td>
         </tr>
     }
@@ -63,23 +63,66 @@
 </table>
 
 <hr>
-
+<h3> Filtrar por fecha</h3>
 <div>
+    @using (Html.BeginForm("CitasPorFecha", "Citas", FormMethod.Post))
+    {
+        <input type="text" name="date1" id="date1" />
+        <input type="text" name="date2" id="date2" />
 
-    <h3>Ingresar fecha inicial</h3>
-    <div>
-        @Html.TextBox("Fecha 1", null, new { @class = "form-control" })
-    </div>
+        <input type="submit" value="CitasPorFecha" />
+    }
+</div>
+<hr>
 
-    <h3>Ingresar fecha final</h3>
-    <div>
-        @Html.TextBox("Fecha2", null, new { @class = "form-control" })
-    </div>
+<h3> Filtrar por estado</h3>
 
-    @Html.ActionLink("Filtra citas Resgistradas en el sistema por fecha", "CitasPorFecha")
+<div class="form-group">
+    @using (Html.BeginForm("CitasPorEstado", "Citas", FormMethod.Post))
+    {
+        @Html.DropDownList("choice",
+             new SelectList(new List<SelectListItem> {
+             new SelectListItem { Text = "Registrada", Value = "0"},
+             new SelectListItem { Text = "Cancelada por paciente", Value = "1"},
+             new SelectListItem { Text = "Cancelada por centro médico", Value = "2"},
+             new SelectListItem { Text = "Asignada", Value = "3"},
+             new SelectListItem { Text = "Realizada", Value = "4"}
+              }, "Value", "Text"),
+                 "Selecione estado",
+                 new { @class = "form-control" })
+
+            <input type="submit" value="CitasPorEstado" />
+
+    }
+
 </div>
 
 <hr>
-    <div>
-        @Html.ActionLink("Log out", "Login", "Pacientes")
-    </div>
+<h3> Filtrar por Especialidad</h3>
+<div>
+    @using (Html.BeginForm("CitasPorEspecialidad", "Citas", FormMethod.Post))
+    {
+        <input type="text" name="choice" id="choice" />
+
+
+        <input type="submit" value="CitasPorEspecialidad" />
+    }
+</div>
+<hr>
+
+<hr>
+<h3> Filtrar por Cedula</h3>
+<div>
+    @using (Html.BeginForm("CitasPorCedula", "Citas", FormMethod.Post))
+    {
+        <input type="text" name="Cedula" id="Cedula" />
+
+
+        <input type="submit" value="CitasPorCedula" />
+    }
+</div>
+<hr>
+
+<div>
+    @Html.ActionLink("Log out", "Login", "Pacientes")
+</div>

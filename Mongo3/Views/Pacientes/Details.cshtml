@@ -76,6 +76,13 @@
 
     </dl>
 </div>
+
+
+<hr />
+
+@Html.ActionLink("Ver Diagnosticos", "VerDiagn", "Citas", new {cedula = Model.cedula }, null)
+
+<hr />
 <p>
-    @Html.ActionLink("Regresar", "CitasDoctorAsync","Citas")
+    @Html.ActionLink("Regresar", "CitasDoctorAsync", "Citas")
 </p>
