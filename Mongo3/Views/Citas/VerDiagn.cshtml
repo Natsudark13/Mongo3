@@ -41,7 +41,7 @@
             @Html.DisplayFor(modelItem => item.Sintomas)
         </td>
         <td>
-            @Html.ActionLink("Ver Tratamiento", "VerTratamientos", new { cedula = item.cedula  }) 
+            @Html.ActionLink("Ver Tratamiento", "VerTratamientos", new { cedula = item.cedula, nombre = item.Nombre  }) 
         </td>
     </tr>
 }

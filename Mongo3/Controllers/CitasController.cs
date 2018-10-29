@@ -389,6 +389,7 @@ namespace Mongo3.Controllers
         public ActionResult VerDiagn(string cedula)
         {
             var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+
             var query =
                 (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
                  where (e.cedula) == cedula
@@ -398,9 +399,10 @@ namespace Mongo3.Controllers
 
         }
 
-        /*public ActionResult VerTratamientos(string cedula)
+        /*public ActionResult VerTratamientos(string cedula,string nombre)
         {
             /*var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+             * var diag = DiagnosticoCollection.AsQueryable<DiagnosticoModel>().SingleOrDefault(x => x.cedula == cedula && x.Nombre == nombre);
             var query =
                 (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
                  where (e.cedula) == cedula
@@ -408,30 +410,30 @@ namespace Mongo3.Controllers
             List<DiagnosticoModel> x = query;
             return View(x);
             */
-            /*var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
-            var TratamientoCollection = dbcontext.database.GetCollection<TratamientoModel>("Tratamiento");
+        /*var DiagnosticoCollection = dbcontext.database.GetCollection<DiagnosticoModel>("Diagnostico");
+        var TratamientoCollection = dbcontext.database.GetCollection<TratamientoModel>("Tratamiento");
 
-            var query2 =
-                (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
-                 where (e.cedula) == cedula
-                 select e.Tratamiento)
-                 ;
-            int x = query2.Count();
-            List<string> li = (List<string>)query2;
-            int cont = 0;
-            List<TratamientoModel> query = null;
-            while (cont < x)
-            {
-                var queryZ =
-                        (from e in TratamientoCollection.AsQueryable<TratamientoModel>()
-                         where (e.ID) == li[cont]
-                         select e).ToList();
-                query.AddRange(queryZ);
-                cont++;
-            }
-            return View(query);
+        var query2 =
+            (from e in DiagnosticoCollection.AsQueryable<DiagnosticoModel>()
+             where (e.cedula) == cedula
+             select e.Tratamiento)
+             ;
+        int x = query2.Count();
+        List<string> li = (List<string>)query2;
+        int cont = 0;
+        List<TratamientoModel> query = null;
+        while (cont < x)
+        {
+            var queryZ =
+                    (from e in TratamientoCollection.AsQueryable<TratamientoModel>()
+                     where (e.ID) == li[cont]
+                     select e).ToList();
+            query.AddRange(queryZ);
+            cont++;
+        }
+        return View(query);
 
-        }*/
+    }*/
 
     }
-    }
+}
