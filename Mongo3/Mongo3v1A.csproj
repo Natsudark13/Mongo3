@@ -292,6 +292,7 @@
     <Content Include="Views\Pacientes\Create.cshtml" />
     <Content Include="Views\Citas\CrearTrataAsync.cshtml" />
     <Content Include="Views\Pacientes\Details.cshtml" />
+    <Content Include="Views\Citas\CitasPorFecha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -61,6 +61,25 @@
     }
 
 </table>
+
+<hr>
+
 <div>
-    @Html.ActionLink("Log out", "Login", "Pacientes")
+
+    <h3>Ingresar fecha inicial</h3>
+    <div>
+        @Html.TextBox("Fecha 1", null, new { @class = "form-control" })
+    </div>
+
+    <h3>Ingresar fecha final</h3>
+    <div>
+        @Html.TextBox("Fecha2", null, new { @class = "form-control" })
+    </div>
+
+    @Html.ActionLink("Filtra citas Resgistradas en el sistema por fecha", "CitasPorFecha")
 </div>
+
+<hr>
+    <div>
+        @Html.ActionLink("Log out", "Login", "Pacientes")
+    </div>

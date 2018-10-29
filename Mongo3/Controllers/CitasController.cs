@@ -314,5 +314,17 @@ namespace Mongo3.Controllers
         {
             return RedirectToAction("Details", "Pacientes", new { cedulaX = cedula });
         }
+
+        public ActionResult CitasPorFecha(string date1, string date2)
+        {
+            var CitasCollection = dbcontext.database.GetCollection<CitasModel>("Citas");
+            var query =
+                (from e in CitasCollection.AsQueryable<CitasModel>()
+                 where (e.Fecha) >= Convert.ToDateTime(date1) && (e.Fecha) <= Convert.ToDateTime(date2)
+                 select e).ToList();
+            List<CitasModel> x = query;
+            return View(x);
+
+        }
     }
     }
